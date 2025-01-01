@@ -2,9 +2,10 @@ using System;
 
 namespace ED.DataManagement
 {
+    [System.Serializable]
     public abstract class DataBase : IDisposable
     {
-        public event Action OnSave;
+        [field: NonSerialized] public event Action OnSave;
         
         public void Save() => OnSave?.Invoke();
 

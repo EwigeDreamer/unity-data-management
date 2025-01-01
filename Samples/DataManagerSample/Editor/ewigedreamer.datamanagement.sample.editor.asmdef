@@ -1,0 +1,18 @@
+{
+    "name": "ewigedreamer.datamanagement.sample.editor",
+    "rootNamespace": "ED",
+    "references": [
+        "ewigedreamer.datamanagement",
+        "ewigedreamer.datamanagement.editor",
+        "ewigedreamer.datamanagement.sample"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

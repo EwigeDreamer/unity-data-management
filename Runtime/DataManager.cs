@@ -17,7 +17,11 @@ namespace ED.DataManagement
         public DataManager(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
+            foreach (var type in GetDataTypes())
+                _repository[type] = LoadData(type);
         }
+        
+        public List<DataBase> GetAllData() => _repository.Values.ToList();
         
         public T GetData<T>() where T : DataBase, new()
         {
@@ -35,10 +39,14 @@ namespace ED.DataManagement
             return data;
         }
 
-        public void SaveData<T>() where T : DataBase
+        private DataBase LoadData(Type type)
         {
-            if (_repository.TryGetValue(typeof(T), out var data))
-                SaveData(data);
+            if (!type.IsSubclassOf(typeof(DataBase))) return null;
+            var data = (DataBase)Activator.CreateInstance(type);
+            data.OnSave += () => SaveData(data);
+            var fields = LoadFields(GetDataName(type));
+            SetFields(data, fields);
+            return data;
         }
 
         private void SaveData(DataBase data)
@@ -94,6 +102,20 @@ namespace ED.DataManagement
         {
             var json = JsonConvert.SerializeObject(fields);
             _dataProvider.SaveData(name, json);
+        }
+
+        private static Type[] GetDataTypes()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(a => a.IsSubclassOf(typeof(DataBase)) && !a.IsAbstract)
+                .ToArray();
+        }
+
+        public void SaveAll()
+        {
+            foreach (var data in _repository.Values)
+                SaveData(data);
         }
 
         public void Dispose()
