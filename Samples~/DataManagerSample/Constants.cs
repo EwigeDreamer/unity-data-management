@@ -2,6 +2,6 @@ namespace ED.DataManagement.Samples
 {
     public static class Constants
     {
-        public const string EditorButtonPath = "Tools/DataManager";
+        public const string EditorButtonPath = "Tools/Custom/DataManager";
     }
 }

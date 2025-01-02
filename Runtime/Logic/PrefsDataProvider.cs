@@ -1,6 +1,7 @@
+using ED.DataManagement.Interfaces;
 using UnityEngine;
 
-namespace ED.DataManagement
+namespace ED.DataManagement.Logic
 {
     public class PrefsDataProvider : IDataProvider
     {

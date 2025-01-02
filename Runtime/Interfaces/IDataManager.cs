@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using ED.DataManagement.Base;
 
-namespace ED.DataManagement
+namespace ED.DataManagement.Interfaces
 {
     public interface IDataManager
     {

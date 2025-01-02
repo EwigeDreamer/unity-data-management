@@ -1,6 +1,7 @@
 #if ODIN_INSPECTOR
 
 using ED.DataManagement.Editor;
+using ED.DataManagement.Logic;
 using UnityEditor;
 
 namespace ED.DataManagement.Samples.Editor

@@ -1,6 +1,6 @@
 using System;
 
-namespace ED.DataManagement
+namespace ED.DataManagement.Base
 {
     [System.Serializable]
     public abstract class BaseData : IDisposable

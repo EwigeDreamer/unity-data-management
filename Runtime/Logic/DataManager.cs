@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ED.DataManagement.Base;
+using ED.DataManagement.Interfaces;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace ED.DataManagement
+namespace ED.DataManagement.Logic
 {
     public class DataManager : IDisposable
     {

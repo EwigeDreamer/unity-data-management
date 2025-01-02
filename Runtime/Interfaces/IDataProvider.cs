@@ -1,4 +1,4 @@
-namespace ED.DataManagement
+namespace ED.DataManagement.Interfaces
 {
     public interface IDataProvider
     {

@@ -1,6 +1,8 @@
 #if ODIN_INSPECTOR
 
 using System.Collections.Generic;
+using ED.DataManagement.Base;
+using ED.DataManagement.Logic;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEditor;

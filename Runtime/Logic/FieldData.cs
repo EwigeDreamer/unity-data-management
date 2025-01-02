@@ -1,4 +1,4 @@
-namespace ED.DataManagement
+namespace ED.DataManagement.Logic
 {
     public class FieldData
     {
