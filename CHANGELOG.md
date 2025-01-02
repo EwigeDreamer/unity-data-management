@@ -1,5 +1,3 @@
-## [1.0.0] - 2024-06-17
+## [1.0.0] - 2025-01-01
 
-### Added Patterns
-
-- 
+### First implementation
