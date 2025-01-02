@@ -1,6 +1,6 @@
 {
   "name": "com.ewigedreamer.prefsdatamanagement",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "displayName": "ED Unity Prefs Data Management",
   "description": "Tool for loading, editing and saving User prefs data.",
   "unity": "2021.3",

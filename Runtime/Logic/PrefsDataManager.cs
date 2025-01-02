@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace ED.PrefsDataManagement.Logic
 {
-    public class PrefsDataManager : IDisposable
+    public class PrefsDataManager : IPrefsDataManager, IDisposable
     {
         private const string NamePrefix = "player_data";
         
