@@ -12,14 +12,17 @@ namespace ED.DataManagement.Editor
 {
     public class DataManagerWindow : OdinMenuEditorWindow
     {
+        private static readonly string DataLostMessage = $"The {nameof(DataManager)} has been lost.\nPlease, close this window and open again.";
+        
         private DataManager _manager;
         private readonly HashSet<BaseData> _dirty = new();
-        private GUIStyle _buttonStyle;
-
+        private GUIStyle _toolbarStyle;
+        
         protected override void Initialize()
         {
-            _buttonStyle = SirenixGUIStyles.ToolbarTab;
-            _buttonStyle.richText = true;
+            _toolbarStyle = new GUIStyle(SirenixGUIStyles.ToolbarButton);
+            _toolbarStyle.richText = true;
+            EditorApplication.playModeStateChanged += OnPlaymodeStateChanged;
         }
 
         public static void OpenWindow(DataManager manager)
@@ -33,7 +36,7 @@ namespace ED.DataManagement.Editor
         protected override void OnImGUI()
         {
             if (_manager != null) base.OnImGUI();
-            else SirenixEditorGUI.MessageBox($"The {nameof(DataManager)} has been lost.\nPlease, close this window and open again.", MessageType.Warning);
+            else SirenixEditorGUI.MessageBox(DataLostMessage, MessageType.Warning);
         }
 
         protected override OdinMenuTree BuildMenuTree()
@@ -53,7 +56,7 @@ namespace ED.DataManagement.Editor
             {
                 GUILayout.FlexibleSpace();
                 
-                if (GUILayout.Button(isDirty ? "<b>Save*</b>" : "Save", SirenixGUIStyles.ToolbarTab))
+                if (GUILayout.Button(isDirty ? "<b>Save*</b>" : "Save", _toolbarStyle ?? SirenixGUIStyles.ToolbarButton))
                 {
                     target.Save();
                     _dirty.Remove(target);
@@ -69,10 +72,16 @@ namespace ED.DataManagement.Editor
             }
         }
 
+        private void OnPlaymodeStateChanged(PlayModeStateChange _)
+        {
+            _manager = null;
+        }
+
         protected override void OnDestroy()
         {
             _manager = null;
             _dirty?.Clear();
+            EditorApplication.playModeStateChanged -= OnPlaymodeStateChanged;
         }
     }
 }

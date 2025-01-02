@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ED.DataManagement.Attributes;
 using ED.DataManagement.Base;
 using ED.DataManagement.Interfaces;
 using Newtonsoft.Json;
@@ -30,17 +31,7 @@ namespace ED.DataManagement.Logic
         {
             if (_repository.TryGetValue(typeof(T), out var data))
                 return (T)data;
-            return (T)(_repository[typeof(T)] = LoadData<T>());
-        }
-
-        private T LoadData<T>() where T : BaseData, new()
-        {
-            var data = new T();
-            data.OnSave += () => SaveData(data);
-            var fields = LoadFields(GetDataName(typeof(T)));
-            SetFields(data, fields);
-            data.OnAfterLoad();
-            return data;
+            return (T)(_repository[typeof(T)] = LoadData(typeof(T)));
         }
 
         private BaseData LoadData(Type type)
@@ -70,11 +61,17 @@ namespace ED.DataManagement.Logic
                 .Where(a => !a.GetCustomAttributes<NonSerializedAttribute>().Any())
                 .Select(field => new FieldData
                 {
-                    name = field.Name,
+                    name = GetFieldName(field),
                     type = field.FieldType.FullName,
                     data = JsonConvert.SerializeObject(field.GetValue(source))
                 })
                 .ToArray();
+        }
+
+        private static string GetFieldName(FieldInfo field)
+        {
+            var nameAttribute = field.GetCustomAttribute<DataPropertyNameAttribute>();
+            return nameAttribute?.Name ?? field.Name;
         }
 
         private static void SetFields(BaseData target, FieldData[] fields)
@@ -82,7 +79,7 @@ namespace ED.DataManagement.Logic
             var targetFields = target.GetType()
                 .GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
                 .Where(a => !a.GetCustomAttributes<NonSerializedAttribute>().Any())
-                .ToDictionary(a => a.Name);
+                .ToDictionary(GetFieldName);
             
             foreach (var field in fields)
             {

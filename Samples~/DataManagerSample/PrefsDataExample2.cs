@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using ED.DataManagement.Base;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 #if ODIN_INSPECTOR
@@ -14,8 +13,15 @@ namespace ED.DataManagement.Samples
     [System.Serializable]
     public class PrefsDataExample2 : BaseData
     {
-        [SerializeField] private DateTime _field1;
-        [SerializeField] private TimeSpan _field2;
+#if ODIN_INSPECTOR
+        [ShowInInspector]
+#endif
+        private DateTime _field1;
+        
+#if ODIN_INSPECTOR
+        [ShowInInspector]
+#endif
+        private TimeSpan _field2;
         
 #if ODIN_INSPECTOR
         [ShowInInspector]

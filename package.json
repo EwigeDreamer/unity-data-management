@@ -1,8 +1,8 @@
 {
   "name": "com.ewigedreamer.datamanagement",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "ED Unity Data Management",
-  "description": "Tool for loading, saving and editing prefs.",
+  "description": "Tool for loading, editing and saving User data.",
   "unity": "2021.3",
   "documentationUrl": "",
   "changelogUrl": "",

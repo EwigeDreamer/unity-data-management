@@ -1,4 +1,5 @@
 using System;
+using ED.DataManagement.Attributes;
 using ED.DataManagement.Base;
 using UnityEditor;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace ED.DataManagement.Samples
     [System.Serializable]
     public class PrefsDataExample1 : BaseData
     {
-        [SerializeField] private int _field1;
+        [SerializeField] [DataPropertyName("custom_field_name_1")] private int _field1;
         [SerializeField] private float _field2;
         [SerializeField] private string _field3;
         
