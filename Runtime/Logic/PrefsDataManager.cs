@@ -2,42 +2,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ED.DataManagement.Attributes;
-using ED.DataManagement.Base;
-using ED.DataManagement.Interfaces;
+using ED.PrefsDataManagement.Attributes;
+using ED.PrefsDataManagement.Base;
+using ED.PrefsDataManagement.Interfaces;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace ED.DataManagement.Logic
+namespace ED.PrefsDataManagement.Logic
 {
-    public class DataManager : IDisposable
+    public class PrefsDataManager : IDisposable
     {
         private const string NamePrefix = "player_data";
         
-        private readonly IDataProvider _dataProvider;
+        private readonly IPrefsDataProvider _dataProvider;
         
-        private readonly Dictionary<Type, BaseData> _repository = new();
+        private readonly Dictionary<Type, BasePrefsData> _repository = new();
         
-        public DataManager(IDataProvider dataProvider)
+        public PrefsDataManager(IPrefsDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
             foreach (var type in GetDataTypes())
                 _repository[type] = LoadData(type);
         }
         
-        public List<BaseData> GetAllData() => _repository.Values.ToList();
+        public List<BasePrefsData> GetAllData() => _repository.Values.ToList();
         
-        public T GetData<T>() where T : BaseData, new()
+        public T GetData<T>() where T : BasePrefsData, new()
         {
             if (_repository.TryGetValue(typeof(T), out var data))
                 return (T)data;
             return (T)(_repository[typeof(T)] = LoadData(typeof(T)));
         }
 
-        private BaseData LoadData(Type type)
+        private BasePrefsData LoadData(Type type)
         {
-            if (!type.IsSubclassOf(typeof(BaseData))) return null;
-            var data = (BaseData)Activator.CreateInstance(type);
+            if (!type.IsSubclassOf(typeof(BasePrefsData))) return null;
+            var data = (BasePrefsData)Activator.CreateInstance(type);
             data.OnSave += () => SaveData(data);
             var fields = LoadFields(GetDataName(type));
             SetFields(data, fields);
@@ -45,7 +45,7 @@ namespace ED.DataManagement.Logic
             return data;
         }
 
-        private void SaveData(BaseData data)
+        private void SaveData(BasePrefsData data)
         {
             data.OnBeforeSave();
             var fields = GetFields(data);
@@ -54,11 +54,11 @@ namespace ED.DataManagement.Logic
 
         private static string GetDataName(Type type) => $"{NamePrefix}_{type.Name.ToLower()}";
 
-        private static FieldData[] GetFields(BaseData source)
+        private static FieldData[] GetFields(BasePrefsData source)
         {
             return source.GetType()
                 .GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                .Where(a => !a.GetCustomAttributes<NonSerializedAttribute>().Any())
+                .Where(a => a.GetCustomAttribute<PrefsDataPropertyAttribute>() != null)
                 .Select(field => new FieldData
                 {
                     name = GetFieldName(field),
@@ -70,15 +70,15 @@ namespace ED.DataManagement.Logic
 
         private static string GetFieldName(FieldInfo field)
         {
-            var nameAttribute = field.GetCustomAttribute<DataPropertyNameAttribute>();
+            var nameAttribute = field.GetCustomAttribute<PrefsDataPropertyAttribute>();
             return nameAttribute?.Name ?? field.Name;
         }
 
-        private static void SetFields(BaseData target, FieldData[] fields)
+        private static void SetFields(BasePrefsData target, FieldData[] fields)
         {
             var targetFields = target.GetType()
                 .GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                .Where(a => !a.GetCustomAttributes<NonSerializedAttribute>().Any())
+                .Where(a => a.GetCustomAttribute<PrefsDataPropertyAttribute>() != null)
                 .ToDictionary(GetFieldName);
             
             foreach (var field in fields)
@@ -98,7 +98,7 @@ namespace ED.DataManagement.Logic
             if (string.IsNullOrWhiteSpace(json)) return Array.Empty<FieldData>();
             var data = JsonConvert.DeserializeObject<FieldData[]>(json);
             if (data == null) return Array.Empty<FieldData>();
-            Debug.Log($"{nameof(DataManager)}: Data [{name}] loaded. Data:\n{json}");
+            Debug.Log($"{nameof(PrefsDataManager)}: Data [{name}] loaded. Data:\n{json}");
             return data;
         }
 
@@ -106,14 +106,14 @@ namespace ED.DataManagement.Logic
         {
             var json = JsonConvert.SerializeObject(fields, Formatting.Indented);
             _dataProvider.SaveData(name, json);
-            Debug.Log($"{nameof(DataManager)}: Data [{name}] saved. Data:\n{json}");
+            Debug.Log($"{nameof(PrefsDataManager)}: Data [{name}] saved. Data:\n{json}");
         }
 
         private static Type[] GetDataTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
-                .Where(a => a.IsSubclassOf(typeof(BaseData)) && !a.IsAbstract)
+                .Where(a => a.IsSubclassOf(typeof(BasePrefsData)) && !a.IsAbstract)
                 .ToArray();
         }
 

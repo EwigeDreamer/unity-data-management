@@ -1,6 +1,6 @@
-namespace ED.DataManagement.Interfaces
+namespace ED.PrefsDataManagement.Interfaces
 {
-    public interface IDataProvider
+    public interface IPrefsDataProvider
     {
         string LoadData(string name);
         void SaveData(string name, string data);

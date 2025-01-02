@@ -1,8 +1,8 @@
 {
-    "name": "ewigedreamer.datamanagement.sample",
+    "name": "ewigedreamer.prefsdatamanagement.sample",
     "rootNamespace": "ED",
     "references": [
-        "ewigedreamer.datamanagement"
+        "ewigedreamer.prefsdatamanagement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

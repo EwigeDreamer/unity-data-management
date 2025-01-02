@@ -1,21 +1,21 @@
 #if ODIN_INSPECTOR
 
 using System.Collections.Generic;
-using ED.DataManagement.Base;
-using ED.DataManagement.Logic;
+using ED.PrefsDataManagement.Base;
+using ED.PrefsDataManagement.Logic;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ED.DataManagement.Editor
+namespace ED.PrefsDataManagement.Editor
 {
-    public class DataManagerWindow : OdinMenuEditorWindow
+    public class PrefsDataManagerWindow : OdinMenuEditorWindow
     {
-        private static readonly string DataLostMessage = $"The {nameof(DataManager)} has been lost.\nPlease, close this window and open again.";
+        private static readonly string DataLostMessage = $"The {nameof(PrefsDataManager)} has been lost.\nPlease, close this window and open again.";
         
-        private DataManager _manager;
-        private readonly HashSet<BaseData> _dirty = new();
+        private PrefsDataManager _manager;
+        private readonly HashSet<BasePrefsData> _dirty = new();
         private GUIStyle _toolbarStyle;
         
         protected override void Initialize()
@@ -25,10 +25,10 @@ namespace ED.DataManagement.Editor
             EditorApplication.playModeStateChanged += OnPlaymodeStateChanged;
         }
 
-        public static void OpenWindow(DataManager manager)
+        public static void OpenWindow(PrefsDataManager manager)
         {
             if (manager == null) return;
-            var window = GetWindow<DataManagerWindow>();
+            var window = GetWindow<PrefsDataManagerWindow>();
             window._manager = manager;
             window.Show();
         }
@@ -49,7 +49,7 @@ namespace ED.DataManagement.Editor
 
         protected override void DrawEditor(int index)
         {
-            var target = (BaseData)CurrentDrawingTargets[index];
+            var target = (BasePrefsData)CurrentDrawingTargets[index];
             var isDirty = _dirty.Contains(target);
             
             SirenixEditorGUI.BeginHorizontalToolbar();

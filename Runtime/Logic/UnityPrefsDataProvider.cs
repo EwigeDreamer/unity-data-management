@@ -1,9 +1,9 @@
-using ED.DataManagement.Interfaces;
+using ED.PrefsDataManagement.Interfaces;
 using UnityEngine;
 
-namespace ED.DataManagement.Logic
+namespace ED.PrefsDataManagement.Logic
 {
-    public class PrefsDataProvider : IDataProvider
+    public class UnityPrefsDataProvider : IPrefsDataProvider
     {
         public string LoadData(string name)
         {

@@ -1,21 +1,21 @@
 using System.Collections;
-using ED.DataManagement.Logic;
+using ED.PrefsDataManagement.Logic;
 using UnityEngine;
 
-namespace ED.DataManagement.Samples
+namespace ED.PrefsDataManagement.Samples
 {
     public class DataManagerEntryPoint : MonoBehaviour
     {
         private const string LabelText = "If you have Sirenix Odin Inspector, open DataManager window in " + Constants.EditorButtonPath;
         
         public static DataManagerEntryPoint Instance { get; private set; }
-        public DataManager DataManager { get; private set; }
+        public PrefsDataManager DataManager { get; private set; }
 
         private void Awake()
         {
             Instance = this;
             
-            DataManager = new DataManager(new PrefsDataProvider());
+            DataManager = new PrefsDataManager(new UnityPrefsDataProvider());
         }
 
         private IEnumerator Start()

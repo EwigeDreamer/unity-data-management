@@ -1,6 +1,6 @@
-namespace ED.DataManagement.Logic
+namespace ED.PrefsDataManagement.Logic
 {
-    public class FieldData
+    internal class FieldData
     {
         public string name;
         public string type;

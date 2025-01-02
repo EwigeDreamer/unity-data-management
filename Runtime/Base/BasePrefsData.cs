@@ -1,9 +1,9 @@
 using System;
 
-namespace ED.DataManagement.Base
+namespace ED.PrefsDataManagement.Base
 {
     [System.Serializable]
-    public abstract class BaseData : IDisposable
+    public abstract class BasePrefsData : IDisposable
     {
         [field: NonSerialized] public event Action OnSave;
         

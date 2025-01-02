@@ -1,8 +1,6 @@
-using System;
-using ED.DataManagement.Attributes;
-using ED.DataManagement.Base;
+using ED.PrefsDataManagement.Attributes;
+using ED.PrefsDataManagement.Base;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.Scripting;
 using Random = UnityEngine.Random;
 
@@ -10,17 +8,27 @@ using Random = UnityEngine.Random;
 using Sirenix.OdinInspector;
 #endif
 
-namespace ED.DataManagement.Samples
+namespace ED.PrefsDataManagement.Samples
 {
     [Preserve]
-    [System.Serializable]
-    public class PrefsDataExample1 : BaseData
+    public class PrefsDataExample1 : BasePrefsData
     {
-        [SerializeField] [DataPropertyName("custom_field_name_1")] private int _field1;
-        [SerializeField] private float _field2;
-        [SerializeField] private string _field3;
+#if ODIN_INSPECTOR
+        [ShowInInspector]
+#endif
+        [PrefsDataProperty("custom_field_name_1")] private int _field1;
         
-        [NonSerialized] private int _ignoredField;
+#if ODIN_INSPECTOR
+        [ShowInInspector]
+#endif
+        [PrefsDataProperty] private float _field2;
+        
+#if ODIN_INSPECTOR
+        [ShowInInspector]
+#endif
+        [PrefsDataProperty] private string _field3;
+        
+        private int _ignoredField;
 
 #if ODIN_INSPECTOR
         [Button]

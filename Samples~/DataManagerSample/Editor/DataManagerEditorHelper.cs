@@ -1,10 +1,10 @@
 #if ODIN_INSPECTOR
 
-using ED.DataManagement.Editor;
-using ED.DataManagement.Logic;
+using ED.PrefsDataManagement.Editor;
+using ED.PrefsDataManagement.Logic;
 using UnityEditor;
 
-namespace ED.DataManagement.Samples.Editor
+namespace ED.PrefsDataManagement.Samples.Editor
 {
     public static class DataManagerEditorHelper
     {
@@ -12,9 +12,9 @@ namespace ED.DataManagement.Samples.Editor
         private static void OpenEditorWindow()
         {
             if (DataManagerEntryPoint.Instance != null)
-                DataManagerWindow.OpenWindow(DataManagerEntryPoint.Instance.DataManager);
+                PrefsDataManagerWindow.OpenWindow(DataManagerEntryPoint.Instance.DataManager);
             else
-                DataManagerWindow.OpenWindow(new DataManager(new PrefsDataProvider()));
+                PrefsDataManagerWindow.OpenWindow(new PrefsDataManager(new UnityPrefsDataProvider()));
         }
     }
 }

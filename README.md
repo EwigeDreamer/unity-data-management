@@ -1,4 +1,4 @@
-# Unity Data Manager
+# Unity Prefs Data Manager
 
 There's tool for loading, editing and saving User data.
 You can use PlayerPrefs or your own DataProvider for storing data.

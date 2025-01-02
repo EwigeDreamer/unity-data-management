@@ -1,32 +1,32 @@
 using System;
 using System.Collections.Generic;
-using ED.DataManagement.Base;
+using ED.PrefsDataManagement.Attributes;
+using ED.PrefsDataManagement.Base;
 using UnityEngine.Scripting;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
-namespace ED.DataManagement.Samples
+namespace ED.PrefsDataManagement.Samples
 {
     [Preserve]
-    [System.Serializable]
-    public class PrefsDataExample2 : BaseData
+    public class PrefsDataExample2 : BasePrefsData
     {
 #if ODIN_INSPECTOR
         [ShowInInspector]
 #endif
-        private DateTime _field1;
+        [PrefsDataProperty] private DateTime _field1;
         
 #if ODIN_INSPECTOR
         [ShowInInspector]
 #endif
-        private TimeSpan _field2;
+        [PrefsDataProperty] private TimeSpan _field2;
         
 #if ODIN_INSPECTOR
         [ShowInInspector]
 #endif
-        private Dictionary<string, string> _field3 = new()
+        [PrefsDataProperty] private Dictionary<string, string> _field3 = new()
         {
             { "key1", "value1" },
             { "key2", "value2" },
@@ -36,7 +36,7 @@ namespace ED.DataManagement.Samples
 #if ODIN_INSPECTOR
         [ShowInInspector]
 #endif
-        private List<string> _field4 = new()
+        [PrefsDataProperty] private List<string> _field4 = new()
         {
             "item1",
             "item2",

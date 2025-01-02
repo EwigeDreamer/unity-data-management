@@ -1,8 +1,8 @@
 {
-  "name": "com.ewigedreamer.datamanagement",
-  "version": "1.1.0",
-  "displayName": "ED Unity Data Management",
-  "description": "Tool for loading, editing and saving User data.",
+  "name": "com.ewigedreamer.prefsdatamanagement",
+  "version": "1.2.0",
+  "displayName": "ED Unity Prefs Data Management",
+  "description": "Tool for loading, editing and saving User prefs data.",
   "unity": "2021.3",
   "documentationUrl": "",
   "changelogUrl": "",
@@ -12,6 +12,13 @@
     "manager",
     "prefs",
     "datamanager"
+  ],
+  "samples": [
+    {
+      "displayName": "DataManagerSample",
+      "description": "Contains sample of PrefsDataManager usage",
+      "path": "Samples~/DataManagerSample"
+    }
   ],
   "author": {
     "name": "Pavel Sborshchikov",
