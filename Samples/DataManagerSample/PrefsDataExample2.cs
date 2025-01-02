@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 namespace ED.DataManagement.Samples
 {
     [Preserve]
-    public class PrefsDataExample2 : DataBase
+    public class PrefsDataExample2 : BaseData
     {
         [ShowInInspector] private DateTime _field1;
         [ShowInInspector] private TimeSpan _field2;

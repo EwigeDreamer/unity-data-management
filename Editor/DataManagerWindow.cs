@@ -1,54 +1,78 @@
+#if ODIN_INSPECTOR
+
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities.Editor;
+using UnityEditor;
 using UnityEngine;
 
 namespace ED.DataManagement.Editor
 {
     public class DataManagerWindow : OdinMenuEditorWindow
     {
-        private readonly Dictionary<DataBase, DataHandler> _handlers = new();
-        
+        private DataManager _manager;
+        private readonly HashSet<BaseData> _dirty = new();
+        private GUIStyle _buttonStyle;
+
+        protected override void Initialize()
+        {
+            _buttonStyle = SirenixGUIStyles.ToolbarTab;
+            _buttonStyle.richText = true;
+        }
+
         public static void OpenWindow(DataManager manager)
         {
             if (manager == null) return;
             var window = GetWindow<DataManagerWindow>();
-            foreach (var data in manager.GetAllData())
-            {
-                var handler = CreateInstance<DataHandler>();
-                handler.data = data;
-                window._handlers[data] = handler;
-            }
+            window._manager = manager;
             window.Show();
         }
 
-        protected override void OnDestroy()
+        protected override void OnImGUI()
         {
-            base.OnDestroy();
-
-            foreach (var handler in _handlers.Values)
-                DestroyImmediate(handler);
-            _handlers.Clear();
+            if (_manager != null) base.OnImGUI();
+            else SirenixEditorGUI.MessageBox($"The {nameof(DataManager)} has been lost.\nPlease, close this window and open again.", MessageType.Warning);
         }
 
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree();
-            foreach (var pair in _handlers)
-                tree.Add(pair.Key.GetType().Name, pair.Value);
+            foreach (var data in _manager.GetAllData())
+                tree.Add(data.GetType().Name, data);
             return tree;
         }
 
         protected override void DrawEditor(int index)
         {
-            base.DrawEditor(index);
+            var target = (BaseData)CurrentDrawingTargets[index];
+            var isDirty = _dirty.Contains(target);
+            
+            SirenixEditorGUI.BeginHorizontalToolbar();
+            {
+                GUILayout.FlexibleSpace();
+                
+                if (GUILayout.Button(isDirty ? "<b>Save*</b>" : "Save", SirenixGUIStyles.ToolbarTab))
+                {
+                    target.Save();
+                    _dirty.Remove(target);
+                }
+            }
+            SirenixEditorGUI.EndHorizontalToolbar();
+            
+            using (var checkScope = new EditorGUI.ChangeCheckScope())
+            {
+                base.DrawEditor(index);
+                if (checkScope.changed)
+                    _dirty.Add(target);
+            }
         }
 
-        [System.Serializable]
-        private class DataHandler : ScriptableObject
+        protected override void OnDestroy()
         {
-            [HideLabel] [HideReferenceObjectPicker] [ShowInInspector]
-            public DataBase data;
+            _manager = null;
+            _dirty?.Clear();
         }
     }
 }
+
+#endif

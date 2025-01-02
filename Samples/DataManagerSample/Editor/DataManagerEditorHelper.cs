@@ -1,3 +1,5 @@
+#if ODIN_INSPECTOR
+
 using ED.DataManagement.Editor;
 using UnityEditor;
 
@@ -5,7 +7,7 @@ namespace ED.DataManagement.Samples.Editor
 {
     public static class DataManagerEditorHelper
     {
-        [MenuItem("Tools/Custom/DataManager")]
+        [MenuItem(Constants.EditorButtonPath)]
         private static void OpenEditorWindow()
         {
             if (DataManagerEntryPoint.Instance != null)
@@ -15,3 +17,5 @@ namespace ED.DataManagement.Samples.Editor
         }
     }
 }
+
+#endif
