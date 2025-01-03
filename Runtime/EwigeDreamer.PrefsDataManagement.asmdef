@@ -1,6 +1,6 @@
 {
-    "name": "ewigedreamer.prefsdatamanagement",
-    "rootNamespace": "ED",
+    "name": "EwigeDreamer.PrefsDataManagement",
+    "rootNamespace": "ED.PrefsDataManagement",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

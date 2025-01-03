@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using ED.PrefsDataManagement.Base;
+using ED.PrefsDataManagement.Interfaces;
 using ED.PrefsDataManagement.Logic;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
@@ -14,7 +15,7 @@ namespace ED.PrefsDataManagement.Editor
     {
         private static readonly string DataLostMessage = $"The {nameof(PrefsDataManager)} has been lost.\nPlease, close this window and open again.";
         
-        private PrefsDataManager _manager;
+        private IPrefsDataManager _manager;
         private readonly HashSet<BasePrefsData> _dirty = new();
         private GUIStyle _toolbarStyle;
         
@@ -25,7 +26,7 @@ namespace ED.PrefsDataManagement.Editor
             EditorApplication.playModeStateChanged += OnPlaymodeStateChanged;
         }
 
-        public static void OpenWindow(PrefsDataManager manager)
+        public static void OpenWindow(IPrefsDataManager manager)
         {
             if (manager == null) return;
             var window = GetWindow<PrefsDataManagerWindow>();

@@ -1,12 +1,12 @@
 {
-    "name": "ewigedreamer.prefsdatamanagement.sample.editor",
-    "rootNamespace": "ED",
+    "name": "EwigeDreamer.PrefsDataManagement.Editor",
+    "rootNamespace": "ED.PrefsDataManagement",
     "references": [
-        "ewigedreamer.prefsdatamanagement",
-        "ewigedreamer.prefsdatamanagement.editor",
-        "ewigedreamer.prefsdatamanagement.sample"
+        "EwigeDreamer.PrefsDataManagement"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

@@ -1,3 +1,8 @@
+## [1.2.2] - 2025-01-04
+### Changes
+- Interface usage in editor window
+- Assemblies renaming
+
 ## [1.2.1] - 2025-01-03
 ### Fixes
 - Missing Interface
